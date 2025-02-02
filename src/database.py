@@ -25,4 +25,4 @@ def make_table(mydb):
 
     mycursor.execute("CREATE DATABASE IF NOT EXISTS file_scanner")
     mycursor.execute("DROP TABLE IF EXISTS file_info")
-    mycursor.execute("CREATE TABLE IF NOT EXISTS file_info (id INT AUTO_INCREMENT PRIMARY KEY, path VARCHAR(255), file_name VARCHAR(255), file_size INT)")
+    mycursor.execute("CREATE TABLE IF NOT EXISTS file_info (id INT AUTO_INCREMENT PRIMARY KEY, path VARCHAR(255), file_name VARCHAR(255), file_size INT, created_time VARCHAR(255), extension VARCHAR(255))")
