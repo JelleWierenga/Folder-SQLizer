@@ -19,8 +19,13 @@ mycursor = mydb.cursor()
 #get specific filetypes
 mycursor.execute("SELECT DISTINCT extension from file_info")
 unique = [row[0] for row in mycursor.fetchall()]
-parser.add_argument("--filetype", help="Search for 1 or more specific file types", choices=unique, nargs="*", type=str)
+parser.add_argument("-ft", "--filetype", help="Search for 1 or more specific file types", choices=unique, nargs="*", type=str)
 args = parser.parse_args()
 
-
+# get filesize
+mycursor.execute("SELECT DISTINCT file_size from file_info")
+uniquesize = [row[0] for row in mycursor.fetchall()]
 filetypes = args.filetype
+parser.add_argument("-fs", "--filesize", help="Get all the file with a specific file type", choices=uniquesize, nargs=1, type=int)
+args = parser.parse_args()
+
