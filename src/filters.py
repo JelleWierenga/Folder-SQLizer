@@ -16,30 +16,24 @@ def get_connection():
 mydb = get_connection()
 mycursor = mydb.cursor()
 
+
+parser = argparse.ArgumentParser(description="Search for files with specific filters.")
+
+
 #get specific filetypes
-mycursor.execute("SELECT DISTINCT extension from file_info")
-uniqueType = [row[0] for row in mycursor.fetchall()]
-parser.add_argument("-ft", "--filetype", help="Search for 1 or more specific file types", choices=uniqueType, nargs="*", type=str)
-args = parser.parse_args()
+parser.add_argument("-ft", "--filetype", help="Search for one or more specific file types", nargs="*", type=str)
+
 
 # get filesize
-mycursor.execute("SELECT DISTINCT file_size from file_info")
-uniqueSize = [row[0] for row in mycursor.fetchall()]
-filetypes = args.filetype
-parser.add_argument("--size", help="Get all the file with a specific file type", choices=uniqueSize, nargs=1, type=int)
-args = parser.parse_args()
+parser.add_argument("--size", help="Filter files by specific file size (bytes)", type=int)
+
 
 # get files with a specific name
-mycursor.execute("SELECT DISTINCT file_name from file_info")
-uniqueName = [row[0] for row in mycursor.fetchall()]
-filetypes = args.filetype
-parser.add_argument("--name", help="get all the files with the enterd name", choices=uniqueName, nargs=1, type=str)
-args = parser.parse_args()
+parser.add_argument("--name", help="Filter files by exact file name", type=str)
+
 
 # get files with created time
-mycursor.execute("SELECT DISTINCT created_time from file_info")
-uniqueDate = [row[0] for row in mycursor.fetchall()]
-filetypes = args.filetype
-parser.add_argument("--modified", help="get files created at given date", choices=uniqueName, nargs=1, type=datetime.date)
-args = parser.parse_args()
+parser.add_argument("--modified", help="Filter files created at a given date (YYYY-MM-DD)", type=str)
 
+
+args = parser.parse_args()
