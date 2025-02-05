@@ -2,7 +2,7 @@ import os
 import mysql.connector
 from dotenv import load_dotenv
 import argparse
-
+import datetime
 load_dotenv()
 parser = argparse.ArgumentParser()
 
@@ -34,5 +34,12 @@ mycursor.execute("SELECT DISTINCT file_name from file_info")
 uniqueName = [row[0] for row in mycursor.fetchall()]
 filetypes = args.filetype
 parser.add_argument("--name", help="get all the files with the enterd name", choices=uniqueName, nargs=1, type=str)
+args = parser.parse_args()
+
+# get files with created time
+mycursor.execute("SELECT DISTINCT created_time from file_info")
+uniqueDate = [row[0] for row in mycursor.fetchall()]
+filetypes = args.filetype
+parser.add_argument("--modified", help="get files created at given date", choices=uniqueName, nargs=1, type=datetime.date)
 args = parser.parse_args()
 
