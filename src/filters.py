@@ -19,21 +19,23 @@ mycursor = mydb.cursor()
 
 parser = argparse.ArgumentParser(description="Search for files with specific filters.")
 
+import argparse
 
-#get specific filetypes
-parser.add_argument("-ft", "--filetype", help="Search for one or more specific file types", nargs="*", type=str)
+def get_arguments():
+    parser = argparse.ArgumentParser(description="Search for files with specific filters.")
+
+    # Folder argument (Required for scanning)
+    parser.add_argument("--folder", help="Path to the folder to scan", type=str, required=True)
+
+    # Filters (Optional)
+    parser.add_argument("-ft", "--filetype", help="Search for one or more specific file types", nargs="*", type=str)
+    parser.add_argument("--size", help="Filter files by specific file size (bytes)", type=int)
+    parser.add_argument("--name", help="Filter files by exact file name", type=str)
+    parser.add_argument("--modified", help="Filter files created at a given date (YYYY-MM-DD)", type=str)
+
+    args = parser.parse_args()
+    return args
 
 
-# get filesize
-parser.add_argument("--size", help="Filter files by specific file size (bytes)", type=int)
-
-
-# get files with a specific name
-parser.add_argument("--name", help="Filter files by exact file name", type=str)
-
-
-# get files with created time
-parser.add_argument("--modified", help="Filter files created at a given date (YYYY-MM-DD)", type=str)
-
-
-args = parser.parse_args()
+def apply_filters():
+    query = "SELECT * FROM file_info"
